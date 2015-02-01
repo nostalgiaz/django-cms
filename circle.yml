@@ -6,11 +6,6 @@ machine:
   timezone:
     Europe/Zurich # Set the timezone
 
-  # Version of ruby to use
-  python:
-    version:
-      3.4.2
-
 ## Customize checkout
 checkout:
   post:
@@ -19,16 +14,9 @@ checkout:
 
 ## Customize dependencies
 dependencies:
-  pre:
-    - npm install coffeescript # install from a different package manager
-    - gem uninstall bundler # use a custom version of bundler
-    - gem install bundler --pre
 
   override:
-    - export DISPLAY=:99.0
-    - sh -e /etc/init.d/xvfb start
-    - pip install -q -r "test_requirements/django-$DJANGO.txt" --use-mirrors
-    - if [ $DB == 'mysql://root@127.0.0.1/djangocms_test' ]; then pip install -q mysql-python --use-mirrors; fi
+    - pip install -q -r "test_requirements/django-1.6.txt" --use-mirrors
 
 
 ## Customize test commands
