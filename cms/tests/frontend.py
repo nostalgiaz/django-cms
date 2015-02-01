@@ -609,7 +609,7 @@ class AddPluginTest(CMSLiveTests):
         link = self.driver.find_element_by_css_selector('a[rel="LinkPlugin"]')
         link.click()
 
-        self.wait_page_loaded()
+        #self.wait_page_loaded()
 
         self.driver.switch_to.parent_frame()
 

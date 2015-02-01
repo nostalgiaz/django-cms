@@ -9,15 +9,13 @@ machine:
 ## Customize checkout
 checkout:
   post:
-    - sh -c "if [ '$DB' = 'postgres://postgres@127.0.0.1/djangocms_test' ]; then psql -c 'DROP DATABASE IF EXISTS djangocms_test;' -U postgres; fi"
-    - sh -c "if [ '$DB' = 'postgres://postgres@127.0.0.1/djangocms_test' ]; then psql -c 'create database djangocms_test;' -U postgres; fi"
+    - sh -c "if [ '$DB' = 'postgres://postgres@127.0.0.1/djangocms_test' ]; then psql -c 'DROP DATABASE IF EXISTS djangocms_test;' -U postgres; psql -c 'create database djangocms_test;' -U postgres; fi"
 
 ## Customize dependencies
 dependencies:
 
   override:
-    - pip install -q -r "test_requirements/django-1.6.txt" --use-mirrors
-    - pip install -q psycopg2
+    - pip install -q -r "test_requirements/django-1.6.txt" psycopg2
 
 
 ## Customize test commands
