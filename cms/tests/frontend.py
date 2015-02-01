@@ -521,9 +521,9 @@ class AddPluginTest(CMSLiveTests):
 
         placeholder_id = page.placeholders.all()[0].pk
 
-        self._login()
-
         raise unittest.SkipTest("Selenium env is set to 0")
+
+        self._login()
 
         # click structure mode
         self.driver.find_element_by_css_selector('a[href="?build"]').click()
