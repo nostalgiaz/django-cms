@@ -9,7 +9,7 @@ machine:
   # Version of ruby to use
   python:
     version:
-      3.4
+      3.4.2
 
 ## Customize checkout
 checkout:
