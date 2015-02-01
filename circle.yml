@@ -6,10 +6,6 @@ machine:
   timezone:
     Europe/Zurich # Set the timezone
 
-## Customize checkout
-checkout:
-  post:
-    - sh -c "if [ '$DB' = 'postgres://postgres@127.0.0.1/djangocms_test' ]; then psql -c 'DROP DATABASE IF EXISTS djangocms_test;' -U postgres; psql -c 'create database djangocms_test;' -U postgres; fi"
 
 ## Customize dependencies
 dependencies:
@@ -21,4 +17,4 @@ dependencies:
 ## Customize test commands
 test:
   override:
-    - DJANGO=1.6 DATABASE_URL='postgres://postgres@127.0.0.1/djangocms_test' SELENIUM=1  python develop.py test
+    - DJANGO=1.6 DATABASE_URL='postgres://ubuntu@127.0.0.1/circle_test' SELENIUM=1  python develop.py test
