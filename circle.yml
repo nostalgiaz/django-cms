@@ -17,6 +17,7 @@ dependencies:
 
   override:
     - pip install -q -r "test_requirements/django-1.6.txt" --use-mirrors
+    - pip install -q psycopg2
 
 
 ## Customize test commands
