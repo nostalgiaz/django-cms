@@ -17,4 +17,4 @@ dependencies:
 ## Customize test commands
 test:
   override:
-    - DJANGO=1.6 DATABASE_URL='postgres://ubuntu@127.0.0.1/circle_test' SELENIUM=1  python develop.py test
+    - SELENIUM=1 python develop.py test --xvfb
