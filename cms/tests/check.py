@@ -5,6 +5,7 @@ import os
 from django.core.exceptions import ImproperlyConfigured
 from django.template import TemplateSyntaxError, base
 from django.test import SimpleTestCase, TestCase
+from django.utils.encoding import force_text
 
 from cms.api import add_plugin
 from cms.models.pluginmodel import CMSPlugin

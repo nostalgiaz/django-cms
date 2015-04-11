@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth import get_permission_codename
 from django.db import models
 from django.template.defaultfilters import title
 from django.utils.encoding import force_text, python_2_unicode_compatible
@@ -117,8 +118,7 @@ class Placeholder(models.Model):
 
     def _get_object_permission(self, obj, request, key):
         opts = obj._meta
-        perm_accessor = getattr(opts, 'get_%s_permission' % key)
-        perm_code = '%s.%s' % (opts.app_label, perm_accessor())
+        perm_code = get_permission_codename('change', opts)
         return request.user.has_perm(perm_code) or request.user.has_perm(perm_code, obj)
 
     def has_change_permission(self, request):

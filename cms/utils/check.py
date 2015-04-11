@@ -7,7 +7,8 @@ import os
 
 from django.db.models.loading import get_app_paths
 from django.conf import settings
-from django.template import Lexer, TOKEN_BLOCK
+from django.template.base import Lexer, TOKEN_BLOCK
+from django.utils import six
 from django.utils.decorators import method_decorator
 from django.utils.termcolors import colorize
 from sekizai.helpers import validate_template
@@ -284,9 +285,13 @@ def check_copy_relations(output):
                 # extension... move along...
                 continue
             for rel in extension._meta.many_to_many:
+                print(extension)
+                print(rel)
+                print(rel.related.model)
+                print(rel.related.related_model)
                 section.warn('%s has a many-to-many relation to %s,\n    but no "copy_relations" method defined.' % (
                     c_to_s(extension),
-                    c_to_s(rel.related.parent_model),
+                    c_to_s(rel.related.related_model),
                 ))
             for rel in extension._meta.get_all_related_objects():
                 if rel.model != extension:
