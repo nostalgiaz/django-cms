@@ -16,7 +16,12 @@ except ImportError:
     from django.template.loader_tags import IncludeNode
 from django.utils import six
 from django.utils.encoding import force_text
-from sekizai.helpers import get_varname, is_variable_extend_node, engines
+
+try:
+    from sekizai.helpers import get_varname, is_variable_extend_node, engines
+except ImportError:
+    from sekizai.helpers import get_varname, is_variable_extend_node
+    engines = None
 
 from cms.exceptions import DuplicatePlaceholderWarning
 from cms.utils import get_cms_setting

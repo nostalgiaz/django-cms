@@ -1530,6 +1530,7 @@ class CharPkFrontendPlaceholderAdminTest(ToolbarTestBase):
         request = self.get_page_request(page, superuser, edit=True)
         response = detail_view(request, ex.pk)
         # if we get a response pattern matches
+        self.assertContains(response, 'CLCL')
         self.assertEqual(response.status_code, 200)
 
 
