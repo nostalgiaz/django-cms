@@ -749,7 +749,6 @@ class CMSEditableObject(InclusionTag):
             lang = get_language()
         with force_language(lang):
             extra_context = {}
-            print(instance, type(instance), self)
             if edit_fields == 'changelist':
                 instance.get_plugin_name = u"%s %s list" % (smart_text(_('Edit')), smart_text(instance._meta.verbose_name))
                 extra_context['attribute_name'] = 'changelist'
@@ -980,8 +979,6 @@ class CMSEditableObjectAdd(CMSEditableObject):
         """
         Uses _get_empty_context and adds the `render_model_icon` variable.
         """
-        print(context)
-        print(instance)
         if not instance:
             return context
         if isinstance(instance, Model) and not instance.pk:

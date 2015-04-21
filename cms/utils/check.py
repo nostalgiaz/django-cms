@@ -285,10 +285,6 @@ def check_copy_relations(output):
                 # extension... move along...
                 continue
             for rel in extension._meta.many_to_many:
-                print(extension)
-                print(rel)
-                print(rel.related.model)
-                print(rel.related.related_model)
                 section.warn('%s has a many-to-many relation to %s,\n    but no "copy_relations" method defined.' % (
                     c_to_s(extension),
                     c_to_s(rel.related.related_model),
