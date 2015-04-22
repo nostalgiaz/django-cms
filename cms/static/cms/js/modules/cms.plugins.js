@@ -120,19 +120,6 @@ $(document).ready(function () {
 				that.copyPlugin(data);
 			});
 
-			// adds longclick events
-			this.container.bind('mousedown mouseup mousemove', function (e) {
-				if(e.type !== 'mousemove') e.stopPropagation();
-				if(e.type === 'mousedown' && (e.which !== 3 || e.button !== 2)) {
-					// start countdown
-					timer = setTimeout(function () {
-						CMS.API.StructureBoard.setActive(that.options.plugin_id, true);
-					}, 500);
-				} else {
-					clearTimeout(timer);
-				}
-			});
-
 			// variables for dragitems
 			var draggable = $('.cms_draggable-' + this.options.plugin_id);
 			var dragitem = draggable.find('> .cms_dragitem');
@@ -177,25 +164,6 @@ $(document).ready(function () {
 				e.preventDefault();
 				e.stopPropagation();
 				that.editPlugin(that.options.urls.edit_plugin, that.options.plugin_name, that.options.plugin_breadcrumb);
-			});
-
-			// adds longclick events
-			dragitem.bind('mousedown mouseup mousemove', function (e) {
-				if(e.type === 'mousedown') {
-					// start countdown
-					timer = setTimeout(function () {
-						CMS.API.StructureBoard.setActive(that.options.plugin_id, false);
-						// prevent dragging
-						$(document).bind('mousemove.keypress', function () {
-							$(document).trigger('keyup.cms', [true]);
-							setTimeout(function () {
-								$(document).unbind('mousemove.keypress');
-							}, 1000);
-						});
-					}, 500);
-				} else {
-					clearTimeout(timer);
-				}
 			});
 		},
 
@@ -472,8 +440,6 @@ $(document).ready(function () {
 		_setSubnav: function (nav) {
 			var that = this;
 
-			nav.bind('mousedown', function (e) { e.stopPropagation(); });  // avoid starting the longclick event when using the drag bar
-
 			nav.bind('mouseenter mouseleave tap.cms', function (e) {
 				e.preventDefault();
 				e.stopPropagation();
@@ -486,7 +452,6 @@ $(document).ready(function () {
 
 				// show loader and make sure scroll doesn't jump
 				CMS.API.Toolbar._loader(true);
-				CMS.API.Helpers.preventScroll(false);
 
 				var el = $(this);
 
@@ -574,7 +539,8 @@ $(document).ready(function () {
 				});
 
 				// show scrollHint for FF on OSX
-				if(nav[0].scrollHeight > 230) scrollHint.show();
+				window.console.log(nav[0], nav[0].scrollHeight);
+				if(nav[0].scrollHeight > 245) scrollHint.show();
 
 			}, 100);
 
@@ -623,9 +589,6 @@ $(document).ready(function () {
 				dropdown.css('top', offset);
 				dropdown.css('bottom', 'auto');
 			}
-
-			// enable scroll
-			this.preventScroll(true);
 		},
 
 		_hideSubnav: function (nav) {
@@ -646,9 +609,6 @@ $(document).ready(function () {
 				nav.find('input').val('');
 				that._searchSubnav(nav, '');
 			}, this.timeout);
-
-			// enable scroll
-			this.preventScroll(false);
 
 			// reset relativity
 			$('.cms_dragbar').css('position', '');

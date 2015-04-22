@@ -2,6 +2,8 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Permission, Group
 from django.contrib.contenttypes.models import ContentType
+from django.db import connection
+from django.db.transaction import set_autocommit
 from south.utils import datetime_utils as datetime
 from south.db import db
 from south.v2 import DataMigration
@@ -11,6 +13,8 @@ from django.db import models
 class Migration(DataMigration):
 
     def forwards(self, orm):
+        if connection.vendor == 'sqlite':
+            set_autocommit(True)
         ph_model = orm['cms.Placeholder']
         page_model = orm['cms.Page']
         try:
@@ -109,7 +113,7 @@ class Migration(DataMigration):
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.User']", 'null': 'True', 'blank': 'True'})
         },
         'cms.page': {
-            'Meta': {'ordering': "('path',)", 'unique_together': "(('publisher_is_draft', 'application_namespace'), ('reverse_id', 'site', 'publisher_is_draft'))", 'object_name': 'Page'},
+            'Meta': {'ordering': "('path',)", 'unique_together': "(('publisher_is_draft', 'site', 'application_namespace'), ('reverse_id', 'site', 'publisher_is_draft'))", 'object_name': 'Page'},
             'application_namespace': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'application_urls': ('django.db.models.fields.CharField', [], {'db_index': 'True', 'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'changed_by': ('django.db.models.fields.CharField', [], {'max_length': '70'}),

@@ -22,6 +22,8 @@ CMS.
 
 Takes you back to home page of your site.
 
+.. _site-menu:
+
 *Site menu*
 ===========
 
@@ -81,17 +83,25 @@ draft only).
 =======================
 
 The *Publishing controller* manages the publishing state of your page - options
-are *Publish page now* |publish-page-now|, for hitherto unpublished pages, and
-a control to switch to *Draft* |draft| and *Live* |live| views.
+are:
+
+* **Publish page now** |publish-page-now| to publish an unpublished
+* **Publish changes** |publish-changes| to publish changes made to an
+  existing page
+* **Edit** |edit| to open the page for editing
+* **Save and close** |save-and-close| to update the page and exit editing mode
 
 .. |publish-page-now| image:: /images/publish-page-now.png
    :width: 119
 
-.. |draft| image:: /images/draft.png
-   :width: 91
+.. |publish-changes| image:: /images/publish-changes.png
+   :width: 107
 
-.. |live| image:: /images/live.png
-   :width: 79
+.. |edit| image:: /images/edit.png
+   :width: 45
+
+.. |save-and-close| image:: /images/save-and-close.png
+   :width: 101
 
 The *disclosure triangle*
 =========================
@@ -210,12 +220,11 @@ element of the page (which will otherwise simply use the *Title* field). If
 provided, it will be the *Page title* that appears in the browser's title bar
 and bookmarks, and in search engine results.
 
-*Description meta tag* is expected to be used to populate a `<meta>` tag in the
-document `<head>`. This is not displayed on the page, but is used for example
-by search engines for indexing and to show a summary of page content. It can
-also be used by other Django applications for similar purposes.
-Description is restricted by the number of characters the search engines
-actually use to show content.
+*Description meta tag* is expected to be used to populate a `<meta>` tag in the document `<head>`.
+This is not displayed on the page, but is used for example by search engines for indexing and to
+show a summary of page content. It can also be used by other Django applications for similar
+purposes. Description is restricted to 155 characters, the number of characters search engines
+typcially use to show content.
 
 =================
 Advanced settings

@@ -58,7 +58,7 @@ def assign_plugins(request, placeholders, template, lang=None, is_fallback=False
         disjoint_placeholders = (ph for ph in placeholders
                                  if all(ph.pk != p.placeholder_id for p in plugins))
         for placeholder in disjoint_placeholders:
-            if get_placeholder_conf("language_fallback", placeholder.slot, template, False):
+            if get_placeholder_conf("language_fallback", placeholder.slot, template, True):
                 for fallback_language in get_fallback_languages(lang):
                     assign_plugins(request, (placeholder,), template, fallback_language, is_fallback=True)
                     fallback_plugins = placeholder._plugins_cache
@@ -71,7 +71,7 @@ def assign_plugins(request, placeholders, template, lang=None, is_fallback=False
     plugins = downcast_plugins(plugins, placeholders)
     # split the plugins up by placeholder
     # Plugins should still be sorted by placeholder
-    groups = dict((ph_id, build_plugin_tree(ph_plugins) if not is_fallback else ph_plugins)
+    groups = dict((ph_id, build_plugin_tree(ph_plugins))
                   for ph_id, ph_plugins
                   in groupby(plugins, attrgetter('placeholder_id')))
     for placeholder in placeholders:

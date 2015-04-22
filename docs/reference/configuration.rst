@@ -7,6 +7,15 @@ Configuration
 django CMS has a number of settings to configure its behaviour. These should
 be available in your ``settings.py`` file.
 
+.. _installed_apps:
+
+******************************
+The ``INSTALLED_APPS`` setting
+******************************
+
+The ordering of items in ``INSTALLED_APPS`` matters. Entries for applications with plugins
+should come *after* ``cms``.
+
 ************************
 Custom User Requirements
 ************************
@@ -25,9 +34,12 @@ Additionally, the application in which the model is defined **must** be loaded b
 
 .. note::
 
-    In most cases, it is better to create a UserProfile model with a one to one relationship to auth.User rather than creating a custom user model.  Custom user models are only necessary if you intended to alter the default behavior of the User model, not simply extend it.
+    In most cases, it is better to create a UserProfile model with a one to one relationship to
+    auth.User rather than creating a custom user model. Custom user models are only necessary if
+    you intended to alter the default behavior of the User model, not simply extend it.
 
-    Additionally, if you do intend to use a custom user model, it is generally advisable to do so only at the beginning of a project, before the database is created.
+    Additionally, if you do intend to use a custom user model, it is generally advisable to do so
+    only at the beginning of a project, before the database is created.
 
 *****************
 Required Settings
@@ -217,7 +229,7 @@ plugins, as shown above with ``base.html content``.
 ``language_fallback``
     When ``True``, if the placeholder has no plugin for the current language
     it falls back to the fallback languages as specified in :setting:`CMS_LANGUAGES`.
-    Defaults to ``False`` to maintain pre-3.0 behavior.
+    Defaults to ``True`` since version 3.1.
 
 .. _placeholder_default_plugins:
 
@@ -502,10 +514,10 @@ will redirect to the URL of the same page in the fallback language. If
 ``False``, the content will be displayed in the fallback language, but there
 will be no redirect.
 
-Note that this applies to the fallback behaviour of *pages*. Within pages, *placeholders* will
-**not** by default adopt the same behaviour. If you want a placeholder to follow a page's fallback
-behaviour, you must set its ``language_fallback`` to ``True`` in :setting:`CMS_PLACEHOLDER_CONF`,
-above.
+Note that this applies to the fallback behaviour of *pages*. Starting for 3.1 *placeholders*
+**will** default to the same behaviour. If you do not want a placeholder to follow a page's
+fallback behaviour, you must set its ``language_fallback`` to ``False``
+in :setting:`CMS_PLACEHOLDER_CONF`, above.
 
 type
     Boolean

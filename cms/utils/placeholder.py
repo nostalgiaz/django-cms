@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models.query_utils import Q
 from django.template import TemplateSyntaxError, NodeList
-from django.template.base import VariableNode, Template
+from django.template.base import VariableNode
 from django.template.loader import get_template
 from django.template.loader_tags import ExtendsNode, BlockNode
 try:
@@ -22,6 +22,7 @@ try:
 except ImportError:
     from sekizai.helpers import get_varname, is_variable_extend_node
     engines = None
+
 
 from cms.exceptions import DuplicatePlaceholderWarning
 from cms.utils import get_cms_setting
@@ -44,7 +45,7 @@ def get_context():
 def get_placeholder_conf(setting, placeholder, template=None, default=None):
     """
     Returns the placeholder configuration for a given setting. The key would for
-    example be 'plugins'  or 'name'.
+    example be 'plugins' or 'name'.
 
     If a template is given, it will try
     CMS_PLACEHOLDER_CONF['template placeholder'] and
@@ -64,7 +65,7 @@ def get_placeholder_conf(setting, placeholder, template=None, default=None):
             if value is not None:
                 return value
             inherit = conf.get('inherit')
-            if inherit :
+            if inherit:
                 if ' ' in inherit:
                     inherit = inherit.split(' ')
                 else:

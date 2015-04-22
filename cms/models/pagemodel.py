@@ -40,8 +40,8 @@ class Page(six.with_metaclass(PageMetaClass, MP_Node)):
     A simple hierarchical page model
     """
     LIMIT_VISIBILITY_IN_MENU_CHOICES = (
-        (1, _('for logged in users only')),
-        (2, _('for anonymous users only')),
+        (constants.VISIBILITY_USERS, _('for logged in users only')),
+        (constants.VISIBILITY_ANONYMOUS, _('for anonymous users only')),
     )
     TEMPLATE_DEFAULT = TEMPLATE_INHERITANCE_MAGIC if get_cms_setting('TEMPLATE_INHERITANCE') else get_cms_setting('TEMPLATES')[0][0]
 
@@ -58,8 +58,12 @@ class Page(six.with_metaclass(PageMetaClass, MP_Node)):
 
     template_choices = [(x, _(y)) for x, y in get_cms_setting('TEMPLATES')]
 
-    created_by = models.CharField(_("created by"), max_length=70, editable=False)
-    changed_by = models.CharField(_("changed by"), max_length=70, editable=False)
+    created_by = models.CharField(
+        _("created by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
+    changed_by = models.CharField(
+        _("changed by"), max_length=constants.PAGE_USERNAME_MAX_LENGTH,
+        editable=False)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
     creation_date = models.DateTimeField(auto_now_add=True)
     changed_date = models.DateTimeField(auto_now=True)
@@ -459,14 +463,25 @@ class Page(six.with_metaclass(PageMetaClass, MP_Node)):
         user = getattr(_thread_locals, "user", None)
         if user:
             try:
-                self.changed_by = str(user)
+                changed_by = force_text(user)
             except AttributeError:
                 # AnonymousUser may not have USERNAME_FIELD
-                self.changed_by = "anonymous"
+                changed_by = "anonymous"
+            else:
+                # limit changed_by and created_by to avoid problems with Custom User Model
+                if len(changed_by) > constants.PAGE_USERNAME_MAX_LENGTH:
+                    changed_by = u'{0}... (id={1})'.format(
+                        changed_by[:constants.PAGE_USERNAME_MAX_LENGTH - 15],
+                        user.pk,
+                    )
+
+            self.changed_by = changed_by
+
         else:
             self.changed_by = "script"
         if created:
             self.created_by = self.changed_by
+
         if commit:
             if not self.depth:
                 if self.parent_id:
